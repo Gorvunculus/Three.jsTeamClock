@@ -12,7 +12,7 @@
 
 			import * as THREE from './js/build/three.module.js';
 			import { PointerLockControls } from './js/examples/jsm/controls/PointerLockControls.js';
-			import { GLTFLoader } from './js/examples/jsm/loaders/GLTFLoader.js';
+			import { OBJLoader } from './js/examples/jsm/loaders/OBJLoader.js';
 
 			let camera, scene, renderer, controls, sceneObjects;
 			let meshFloor, ambientLight, light, lightMesh, spotlight;
@@ -128,19 +128,23 @@
 
 				raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 				const imageLoader = new THREE.TextureLoader();
-				const objectLoader = new GLTFLoader();
+				const objectLoader = new OBJLoader();
 				
 				// floor
 
-				  meshFloor = new THREE.Mesh(
-					new THREE.PlaneGeometry(2000, 2000, 100),
-					new THREE.MeshPhongMaterial({ map: imageLoader.load('./images/Floor.png'), side: THREE.DoubleSide })
-				  );
+				const groundTexture = imageLoader.load( 'images/Floor.jpg' );
+				groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+				groundTexture.repeat.set( 75, 75 );
 
-				  meshFloor.rotation.x -= Math.PI / 2;
-				  // Floor can have shadows cast onto it
-				  meshFloor.receiveShadow = true;
-				  scene.add(meshFloor);
+				const groundMaterial = new THREE.MeshLambertMaterial( { map: groundTexture } );
+
+				meshFloor = new THREE.Mesh(
+					new THREE.PlaneGeometry(2000, 2000, 1), groundMaterial);
+
+				meshFloor.rotation.x -= Math.PI / 2;
+				// Floor can have shadows cast onto it
+				meshFloor.receiveShadow = true;
+				scene.add(meshFloor);
 				  
 			  //Lights
 			  
@@ -174,12 +178,10 @@
 				sceneObjects = [];
 
 				let mesh = new THREE.Mesh(
-					  new THREE.BoxGeometry(8, 5, 8),
+					  new THREE.BoxGeometry(8, 8, 8),
 					  new THREE.MeshPhongMaterial({ map: imageLoader.load('./images/Display.png') })
 					);
-					mesh.position.x = 0;
-					mesh.position.y = 5;
-					mesh.position.z = -30;
+					mesh.position.set(0,2.5,-30);
 
 					// The cube can have shadows cast onto it, and it can cast shadows
 					mesh.receiveShadow = true;
@@ -188,16 +190,78 @@
 
 					sceneObjects.push(mesh);
 					
-				// GLTF
-				
-				objectLoader.load( './objs/hypersoccerball.gltf', function ( gltf ) {
+				let mesh2 = new THREE.Mesh(
+					  new THREE.BoxGeometry(8, 8, 8),
+					  new THREE.MeshPhongMaterial({ map: imageLoader.load('./images/Display.png') })
+					);
+					mesh2.position.set(30,2.5,-30);
+
+					// The cube can have shadows cast onto it, and it can cast shadows
+					mesh2.receiveShadow = true;
+					mesh2.castShadow = true;
+					scene.add(mesh2);
+
+					sceneObjects.push(mesh);
 					
-					scene.add( gltf.scene );
+				let mesh3 = new THREE.Mesh(
+					  new THREE.BoxGeometry(8, 8, 8),
+					  new THREE.MeshPhongMaterial({ map: imageLoader.load('./images/Display.png') })
+					);
+					mesh3.position.set(-30,2.5,-30);
+
+					// The cube can have shadows cast onto it, and it can cast shadows
+					mesh3.receiveShadow = true;
+					mesh3.castShadow = true;
+					scene.add(mesh3);
+
+					sceneObjects.push(mesh);
+					
+				// OBJ
+				
+				objectLoader.load( './objs/abo1.obj', function ( object1 ) {
+					
+					const model = object1
+					model.position.set(0,10,-30);
+					model.scale.set(.05,.05,.05);
+					scene.add( model );
 					
 				}, undefined, function ( error ) {
 					console.error( error );
 					
 				} );
+				
+				objectLoader.load( './objs/abo2.obj', function ( object2 ) {
+					
+					const model2 = object2
+					model2.position.set(30,10,-30);
+					model2.scale.set(.01,.01,.01);
+					scene.add( model2 );
+					
+				}, undefined, function ( error ) {
+					console.error( error );
+					
+				} );
+				
+				objectLoader.load( './objs/abo3.obj', function ( object3 ) {
+					
+					const model3 = object3
+					model3.position.set(-30,8,-30);
+					model3.scale.set(.004,.004,.004);
+					scene.add( model3 );
+					
+				}, undefined, function ( error ) {
+					console.error( error );
+					
+				} );
+				
+				function animate() {
+					requestAnimationFrame( animate );
+					const delta = clock.getDelta();
+					mixer.update( delta );
+					controls.update();
+					stats.update();
+					renderer.render( scene, camera );
+				}
 				
 				//
 
@@ -253,7 +317,7 @@
 					if ( onObject === true ) {
 
 						velocity.y = Math.max( 0, velocity.y );
-						canJump = true;
+						canJump = false;
 
 					}
 
@@ -267,7 +331,7 @@
 						velocity.y = 0;
 						controls.getObject().position.y = 10;
 
-						canJump = true;
+						canJump = false;
 
 					}
 
