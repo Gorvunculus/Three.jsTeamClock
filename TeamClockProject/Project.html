@@ -133,12 +133,13 @@
 				scene.add(mesh3);
 				
 			// OBJ
-			
+			let objectOne, objectTwo, objectThree
 			objectLoader.load( './objs/abo1.obj', function ( object1 ) {
 				
 				const model = object1
 				model.position.set(0,10,-30);
 				model.scale.set(.05,.05,.05);
+				objectOne = model;
 				scene.add( model );
 				
 			}, undefined, function ( error ) {
@@ -151,6 +152,7 @@
 				const model2 = object2
 				model2.position.set(30,10,-30);
 				model2.scale.set(.01,.01,.01);
+				objectTwo = model2;
 				scene.add( model2 );
 				
 			}, undefined, function ( error ) {
@@ -163,6 +165,7 @@
 				const model3 = object3
 				model3.position.set(-30,8,-30);
 				model3.scale.set(.004,.004,.004);
+				objectThree = model3;
 				scene.add( model3 );
 				
 			}, undefined, function ( error ) {
@@ -227,6 +230,12 @@
 						controls.getObject().position.y = 10;
 					}
 				}
+				
+				if (objectOne) rotateObject(objectOne, 0.01, 0.10);
+				if (objectTwo) rotateObject(objectTwo, 0.01, 0.10);
+				if (objectThree) rotateObject(objectThree, 0.01, 0.10);
+				
+				
 				prevTime = time;
 				renderer.render( scene, camera );
 			}
