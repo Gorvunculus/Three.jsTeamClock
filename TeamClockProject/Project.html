@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js - pointerlock controls</title>
+		<title>Team Clock Project</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
@@ -29,36 +29,39 @@
 			const ambient = new THREE.AmbientLight ( 0x404040, 0.5 );
 			scene.add( ambient )
 
-			const spot1 = new THREE.SpotLight( 0xeeeeff, 1, 0, 45);
-			spot1.position.set( 0, 40, -25 );
+			const spot1 = new THREE.SpotLight( 0xeeeeff, 1, 0);
+			spot1.position.set( 0, 20, -25 );
 			spot1.castShadow = true;
-			scene.add( spot1 );
 			spot1.shadow.mapSize.width = 512;
 			spot1.shadow.mapSize.height = 512;
 			spot1.shadow.camera.near = 0.1;
 			spot1.shadow.camera.far = 1000;
 			spot1.shadow.camera.focus = 1;
-			spot1.penumbra = 0.5
+			spot1.angle = 90
+			scene.add( spot1 );
 			
-			const spot2 = new THREE.SpotLight( 0xeeeeff, 1, 0, 45);
-			spot2.position.set( 30, 40, -25 );
+			const spot2 = new THREE.SpotLight( 0xeeeeff, 1, 0);
+			spot2.position.set( 30, 20, -25 );
 			spot2.castShadow = true;
-			scene.add( spot2 );
 			spot2.shadow.mapSize.width = 512;
 			spot2.shadow.mapSize.height = 512;
 			spot2.shadow.camera.near = 0.1;
 			spot2.shadow.camera.far = 1000;
 			spot2.shadow.camera.focus = 1;
+			spot2.angle = 90
+			scene.add( spot2 );
+
 			
-			const spot3 = new THREE.SpotLight( 0xeeeeff, 1, 0, 45);
-			spot3.position.set( -30, 40, -25 );
+			const spot3 = new THREE.SpotLight( 0xeeeeff, 1, 0);
+			spot3.position.set( -30, 20, -25 );
 			spot3.castShadow = true;
-			scene.add( spot3 );
 			spot3.shadow.mapSize.width = 512;
 			spot3.shadow.mapSize.height = 512;
 			spot3.shadow.camera.near = 0.1;
 			spot3.shadow.camera.far = 1000;
 			spot3.shadow.camera.focus = 1;
+			spot3.angle = 90
+			scene.add( spot3 );
 			
 			const controls = new PointerLockControls( camera, document.body );
 				document.addEventListener( 'click', function() {
@@ -290,7 +293,7 @@
 				
 				if (objectOne) rotateObject(objectOne, 0.01, 0.10);
 				if (objectTwo) rotateObject(objectTwo, 0.01, 0.10);
-				if (objectThree) rotateObject(objectThree, 0.01, 0.10);
+				if (objectThree) rotateObject(objectThree, 0.1, 0.10);
 				
 				
 				prevTime = time;
