@@ -133,10 +133,20 @@
 				scene.add(mesh3);
 				
 			// OBJ
+			
+			var materialOne = new THREE.MeshPhongMaterial( { color: 0xcc402e, emissive: 0x7b76bc, specular: 0x212121, shininess: 30} )
+			var materialTwo = new THREE.MeshPhongMaterial( { color: 0x218918} )
+			var materialThree = new THREE.MeshPhongMaterial( { color: 0x2026ad} )
+			
 			let objectOne, objectTwo, objectThree
 			objectLoader.load( './objs/abo1.obj', function ( object1 ) {
 				
 				const model = object1
+				model.traverse( function ( child ) {
+                             if ( child instanceof THREE.Mesh ) {
+									child.material = materialOne;
+                                 }
+                             } );
 				model.position.set(0,10,-30);
 				model.scale.set(.05,.05,.05);
 				objectOne = model;
@@ -150,6 +160,11 @@
 			objectLoader.load( './objs/abo2.obj', function ( object2 ) {
 				
 				const model2 = object2
+				model2.traverse( function ( child ) {
+                             if ( child instanceof THREE.Mesh ) {
+									child.material = materialTwo;
+                                 }
+                             } );
 				model2.position.set(30,10,-30);
 				model2.scale.set(.01,.01,.01);
 				objectTwo = model2;
@@ -163,6 +178,11 @@
 			objectLoader.load( './objs/abo3.obj', function ( object3 ) {
 				
 				const model3 = object3
+				model3.traverse( function ( child ) {
+                             if ( child instanceof THREE.Mesh ) {
+									child.material = materialThree;
+                                 }
+                             } );
 				model3.position.set(-30,8,-30);
 				model3.scale.set(.004,.004,.004);
 				objectThree = model3;
