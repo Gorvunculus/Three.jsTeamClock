@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js - pointerlock controls</title>
+		<title>Team Clock Project</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link type="text/css" rel="stylesheet" href="main.css">
@@ -12,6 +12,7 @@
 			import * as THREE from './js/build/three.module.js';
 			import { PointerLockControls } from './js/examples/jsm/controls/PointerLockControls.js';
 			import { OBJLoader } from './js/examples/jsm/loaders/OBJLoader.js';
+			import { GLTFLoader } from './js/examples/jsm/loaders/GLTFLoader.js';
 
 			let moveForward = false;
 			let moveBackward = false;
@@ -29,36 +30,39 @@
 			const ambient = new THREE.AmbientLight ( 0x404040, 0.5 );
 			scene.add( ambient )
 
-			const spot1 = new THREE.SpotLight( 0xeeeeff, 1, 0, 45);
+			const spot1 = new THREE.SpotLight( 0xeeeeff, 1, 0);
 			spot1.position.set( 0, 40, -25 );
 			spot1.castShadow = true;
-			scene.add( spot1 );
 			spot1.shadow.mapSize.width = 512;
 			spot1.shadow.mapSize.height = 512;
 			spot1.shadow.camera.near = 0.1;
 			spot1.shadow.camera.far = 1000;
 			spot1.shadow.camera.focus = 1;
-			spot1.penumbra = 0.5
+			spot1.penumbra = 0.5;
+			spot1.angle = 90;
+			scene.add( spot1 );
 			
 			const spot2 = new THREE.SpotLight( 0xeeeeff, 1, 0, 45);
 			spot2.position.set( 30, 40, -25 );
 			spot2.castShadow = true;
-			scene.add( spot2 );
 			spot2.shadow.mapSize.width = 512;
 			spot2.shadow.mapSize.height = 512;
 			spot2.shadow.camera.near = 0.1;
 			spot2.shadow.camera.far = 1000;
 			spot2.shadow.camera.focus = 1;
+			spot2.angle = 90;
+			scene.add( spot2 );
 			
 			const spot3 = new THREE.SpotLight( 0xeeeeff, 1, 0, 45);
 			spot3.position.set( -30, 40, -25 );
 			spot3.castShadow = true;
-			scene.add( spot3 );
 			spot3.shadow.mapSize.width = 512;
 			spot3.shadow.mapSize.height = 512;
 			spot3.shadow.camera.near = 0.1;
 			spot3.shadow.camera.far = 1000;
 			spot3.shadow.camera.focus = 1;
+			spot3.angle = 90;
+			scene.add( spot3 );
 			
 			const controls = new PointerLockControls( camera, document.body );
 				document.addEventListener( 'click', function() {
@@ -117,6 +121,7 @@
 			const raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 			const imageLoader = new THREE.TextureLoader();
 			const objectLoader = new OBJLoader();
+			const objectLoader2 = new GLTFLoader();
 				
 			// floor
 
@@ -165,7 +170,7 @@
 			
 			var materialOne = new THREE.MeshPhongMaterial( { color: 0x2194ce, emissive: 0x0, specular: 0x111111, shininess: 30} )
 			var materialTwo = new THREE.MeshStandardMaterial( { color: 0xce2121, emissive: 0x0, roughness: 1.0} )
-			var materialThree = new THREE.MeshPhongMaterial( { color: 0x2026ad} )
+			var materialThree = new THREE.MeshPhongMaterial( { color: 0x21ce3c} )
 			
 			let objectOne, objectTwo, objectThree
 			objectLoader.load( './objs/abo1.obj', function ( object1 ) {
@@ -210,17 +215,17 @@
 				
 			} );
 			
-			objectLoader.load( './objs/abo4.obj', function ( object3 ) {
+			objectLoader2.load( './objs/scene.gltf', function ( object3 ) {
 				
-				const model3 = object3
+				const model3 = object3.scene
 				model3.traverse( function ( child ) {
                              if ( child instanceof THREE.Mesh ) {
 									child.material = materialThree;
 									child.castShadow = true;
                                  }
                              } );
-				model3.position.set(-30,8,-30);
-				model3.scale.set(1,1,1);
+				model3.position.set(-30,10,-30);
+				model3.scale.set(0.03,0.03,0.03);
 				model3.receiveShadow = true
 				model3.castShadow = true
 				objectThree = model3;
