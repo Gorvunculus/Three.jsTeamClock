@@ -38,6 +38,7 @@
 			spot1.shadow.camera.near = 0.1;
 			spot1.shadow.camera.far = 1000;
 			spot1.shadow.camera.focus = 1;
+			spot1.penumbra = 0.5
 			
 			const spot2 = new THREE.SpotLight( 0xeeeeff, 1, 0, 45);
 			spot2.position.set( 30, 40, -25 );
@@ -123,7 +124,7 @@
 			groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
 			groundTexture.repeat.set( 75, 75 );
 
-			const groundMaterial = new THREE.MeshLambertMaterial( { map: groundTexture } );
+			const groundMaterial = new THREE.MeshPhongMaterial( { map: groundTexture } );
 
 			const meshFloor = new THREE.Mesh(
 				new THREE.PlaneGeometry(2000, 2000, 1), groundMaterial);
@@ -162,8 +163,8 @@
 				
 			// OBJ
 			
-			var materialOne = new THREE.MeshPhongMaterial( { color: 0xcc402e, emissive: 0x7b76bc, specular: 0x212121, shininess: 30} )
-			var materialTwo = new THREE.MeshPhongMaterial( { color: 0x218918} )
+			var materialOne = new THREE.MeshPhongMaterial( { color: 0x2194ce, emissive: 0x0, specular: 0x111111, shininess: 30} )
+			var materialTwo = new THREE.MeshStandardMaterial( { color: 0xce2121, emissive: 0x0, roughness: 1.0} )
 			var materialThree = new THREE.MeshPhongMaterial( { color: 0x2026ad} )
 			
 			let objectOne, objectTwo, objectThree
