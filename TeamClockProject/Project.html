@@ -126,7 +126,7 @@
 			const groundMaterial = new THREE.MeshLambertMaterial( { map: groundTexture } );
 
 			const meshFloor = new THREE.Mesh(
-				new THREE.PlaneGeometry(2000, 2000, 1).receiveShadow = true, groundMaterial);
+				new THREE.PlaneGeometry(2000, 2000, 1), groundMaterial);
 
 			meshFloor.rotation.x -= Math.PI / 2;
 			meshFloor.receiveShadow = true;
